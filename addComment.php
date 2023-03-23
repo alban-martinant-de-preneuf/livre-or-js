@@ -1,6 +1,7 @@
 <?php
 require_once("./Classes/User.php");
 require_once("./Classes/Comment.php");
+
 session_start();
 
 if (isset($_POST['text'])) {

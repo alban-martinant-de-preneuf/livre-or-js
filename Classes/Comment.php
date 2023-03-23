@@ -1,4 +1,7 @@
 <?php
+
+require_once("./Classes/User.php");
+
 class Comment
 {
     private static PDO $db;
@@ -23,7 +26,7 @@ class Comment
 
     public function register()
     {
-        $sqlQuery = "INSERT INTO `commentaires` (`commentaire`,`id_utilisateur`) VALUES (:commentaire,:id_utilisateur)";
+        $sqlQuery = "INSERT INTO `commentaires` (`commentaire`,`id_utilisateur`, `date`) VALUES (:commentaire,:id_utilisateur, NOW())";
         $insertUser = self::$db->prepare($sqlQuery);
         $insertUser->execute([
             'commentaire' => $this->text,
