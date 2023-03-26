@@ -2,8 +2,8 @@
 class User
 {
     private static PDO $db;
-
-    public function __construct(private string $name, private string $password, private ?int $id = null)
+    
+    private static function dbConnect()
     {
         // Connection à la base de donnée
         try {
@@ -15,7 +15,11 @@ class User
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
+    }
 
+    public function __construct(private string $name, private string $password, private ?int $id = null)
+    {
+        self::dbConnect();
     }
 
     public function getName()
@@ -80,13 +84,35 @@ class User
             $catchId->execute([
                 'login' => $this->name
             ]);
-            $result = $catchId->fetchColumn();
-            $this->id = $result;
+            $gettedId = $catchId->fetchColumn();
+            $this->id = $gettedId;
             // Le mettre en session
             $_SESSION['LOGED_USER'] = $this;
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function changePwd(string $old_pwd, string $new_pwd)
+    {
+        var_dump($this);
+        var_dump($old_pwd);
+        var_dump($new_pwd);
+        self::dbConnect();
+        $sqlQuery = "SELECT password FROM utilisateurs WHERE login = :login";
+        $getPwd = self::$db->prepare($sqlQuery);
+        $getPwd->execute([
+            'login' => $this->name
+        ]);
+        $gettedPwd = $getPwd->fetchColumn();
+        if (password_verify($old_pwd, $gettedPwd)) {
+            $sqlQuery = "UPDATE `utilisateurs` SET `password` = :password WHERE `id` = :id";
+            $insertUser = self::$db->prepare($sqlQuery);
+            $insertUser->execute([
+                'password' => password_hash($new_pwd, PASSWORD_DEFAULT),
+                'id' => $this->id
+            ]);
         }
     }
 }

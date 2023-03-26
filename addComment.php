@@ -8,6 +8,7 @@ if (isset($_POST['text'])) {
     $text = htmlspecialchars($_POST['text']);
     $comment = new Comment($text, $_SESSION['LOGED_USER']);
     $comment->register();
+    header('Location: index.php');
 }
 ?>
 

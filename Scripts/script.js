@@ -4,10 +4,8 @@ const inscription_button = document.querySelector('#inscription_button');
 const connection_button = document.querySelector('#connection_button');
 const disconnection_button = document.querySelector('#disconnection_button');
 const addcomment_button = document.querySelector('#addcomment_button');
+const livre_or = document.querySelector('#livre_or');
 const profil_button = document.querySelector('#profil_button');
-
-
-console.log(inscription_button);
 
 // évènements
 if (inscription_button !== null) {
@@ -40,7 +38,7 @@ if (disconnection_button !== null) {
     disconnection_button.addEventListener("click", (e) => {
         e.preventDefault();
         fetch('disconnection.php')
-        .then(() => document.location.reload('../index.php'));
+            .then(() => document.location.reload('../index.php'));
     })
 }
 
@@ -48,6 +46,19 @@ if (addcomment_button !== null) {
     addcomment_button.addEventListener("click", (e) => {
         e.preventDefault();
         fetch('addComment.php')
+            .then((response) => {
+                return response.text();
+            })
+            .then((response) => {
+                form_container.innerHTML = response;
+            })
+    })
+}
+
+if (livre_or !== null) {
+    livre_or.addEventListener("click", (e) => {
+        e.preventDefault();
+        fetch('livre_or.php')
             .then((response) => {
                 return response.text();
             })

@@ -6,13 +6,8 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     $login = htmlspecialchars($_POST['login']);
     $password = htmlspecialchars($_POST['password']);
     $user = new User($login, $password);
-    if ($user->connect()) {
-        echo "Connexion réussie";
-        header('Location: index.php');
-        die();
-    } else {
-        echo "Connexion échoué";
-    }
+    $user->connect();
+    header('Location: index.php');
 }
 ?>
 

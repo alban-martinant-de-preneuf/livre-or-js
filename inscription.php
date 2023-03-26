@@ -10,7 +10,6 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $user = new User($login, $password);
         if ($user->register()) {
             echo "Vous avez bien été inscrit";
-            header('Location: index.php');
             die();
         } else {
             echo "l'utilisateur existe déjà !";
@@ -18,7 +17,9 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     } else {
         echo "Les mots de passe sont différents !!!";
     }
+    header('Location: index.php');
 }
+
 ?>
 
 <form action="inscription.php" method="post">

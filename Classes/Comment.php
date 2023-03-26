@@ -6,12 +6,10 @@ class Comment
 {
     private static PDO $db;
     private DateTime $date;
+    private ?int $comment_id;
 
-    public function __construct(
-        private string $text,
-        private User $user,
-        private ?int $comment_id = null
-    ) {
+    private static function dbConnect()
+    {
         // Connection à la base de donnée
         try {
             self::$db = new PDO(
@@ -22,6 +20,13 @@ class Comment
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
+    }
+
+    public function __construct(
+        private string $text,
+        private User $user,
+    ) {
+        self::dbConnect();
     }
 
     public function register()
@@ -44,6 +49,24 @@ class Comment
                 'commentaire' => $this->text,
                 'id' => $this->comment_id
             ]);
+        }
+    }
+
+    public static function displayComment()
+    {
+        $sqlQuery = "SELECT commentaires.commentaire, commentaires.date, utilisateurs.login FROM commentaires JOIN utilisateurs ON commentaires.id_utilisateur = utilisateurs.id";
+        self::dbConnect();
+        $takeComments = self::$db->prepare($sqlQuery);
+        $takeComments->execute();        
+        while ($comment = $takeComments->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>
+                    <td>" .
+                        $comment['login'] . "<br>" . $comment['date'] .
+                    "</td>
+                    <td>" .
+                        $comment['commentaire'] .
+                    "</td>
+                </tr>";
         }
     }
 }

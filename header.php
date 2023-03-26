@@ -8,6 +8,6 @@
             <li id="disconnection_button">Se déconnecter</li>
             <li id="addcomment_button">Ajouter un commentaire</li>
         <?php endif?>
-        <li id="livre-or">Livre d'or</li>
+        <li id="livre_or">Livre d'or</li>
     </ul>
 </nav>
