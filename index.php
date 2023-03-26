@@ -20,7 +20,7 @@ session_start();
     require_once('header.php');
 
     if (!isset($_SESSION['LOGED_USER'])) {
-        echo "Bienvenu sur mon livre d'or, inscrivez vous pour laisser un commentaire.";
+        echo "Bienvenu sur mon livre d'or, inscrivez vous et/ou connectez vous pour laisser un commentaire.";
     } else {
         echo "Bonjour " . ($_SESSION['LOGED_USER'])->getName();
     }

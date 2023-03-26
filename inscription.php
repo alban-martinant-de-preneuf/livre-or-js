@@ -10,7 +10,6 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $user = new User($login, $password);
         if ($user->register()) {
             echo "Vous avez bien été inscrit";
-            die();
         } else {
             echo "l'utilisateur existe déjà !";
         }
